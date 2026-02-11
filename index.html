@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mai Vy ơi có đồng ý lấy anh hông?</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .heart {
+            position: absolute;
+            color: #ff4757;
+            animation: fly 5s linear infinite;
+            top: -10%;
+            z-index: 0;
+        }
+        @keyframes fly {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 380px;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            animation: zoomIn 0.5s ease;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .sticker-img {
+            width: 150px;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #ff4757;
+            font-size: 22px;
+            margin: 10px 0;
+        }
+        p {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            height: 50px;
+        }
+        button {
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+            transition: 0.2s;
+        }
+        #yesBtn {
+            background: #ff4757;
+            color: white;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+            animation: pulse 1.2s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        #noBtn {
+            background: #dfe4ea;
+            color: #2f3542;
+            position: absolute; 
+            z-index: 10;
+        }
+        .final-msg {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+            animation: zoomIn 0.8s ease;
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255,71,87,0.2);
+        }
+        .final-msg img {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+        .final-msg p {
+            font-size: 20px;
+            color: #ff4757;
+            font-weight: bold;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/28/audio_e8f925af2b.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="container" id="mainCard">
+        <img src="https://i.pinimg.com/originals/0e/33/30/0e3330287169a30f2df9ce0d137f7031.gif" class="sticker-img">
+        <h2>Mai Em có đồng ý lấy anh hông?</h2>
+        <p>Im lặng là đồng ý, thoát là chấp nhận 😁</p>
+        <div class="btn-group">
+            <button id="yesBtn">Có 😍</button>
+            <button id="noBtn">Không</button>
+        </div>
+    </div>
+
+    <div class="final-msg" id="successMsg">
+        <img src="https://i.pinimg.com/originals/e8/2a/6d/e82a6d762c5ae2cdd51336a5376495ab.gif">
+        <p>Biết ngay mà! yêuuuuu 💕</p>
+        <p style="font-size: 14px; font-weight: normal; margin-top: 10px; color: #666">Chuẩn bị váy cưới đi nha!</p>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainCard = document.getElementById('mainCard');
+        const successMsg = document.getElementById('successMsg');
+        const music = document.getElementById('music');
+        const body = document.querySelector('body');
+
+        function moveBtn() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            const newX = Math.random() * (width - btnWidth - 40) + 20;
+            const newY = Math.random() * (height - btnHeight - 40) + 20;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+        }
+
+        noBtn.addEventListener('mouseover', moveBtn);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveBtn();
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerText = ['❤️','💖','💕','💘'][Math.floor(Math.random()*4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        yesBtn.addEventListener('click', () => {
+            mainCard.style.display = 'none';
+            successMsg.style.display = 'flex';
+            music.play().catch(() => {});
+            
+            setInterval(createHeart, 100);
+            
+            for(let i=0; i<50; i++) {
+                setTimeout(createHeart, i*30);
+            }
+        });
+    </script>
+</body>
+</html>
